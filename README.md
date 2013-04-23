@@ -29,6 +29,11 @@ require 'lru_redux'
 cache = LruRedux::Cache.new(100)
 cache[:a] = "1"
 cache[:b] = "2"
+
+cache.to_a
+# [[:b,"2"],[:a,"1"]]
+# note the order matters here, last accessed is first
+
 cache[:a] # a pushed to front
 # "1"
 
