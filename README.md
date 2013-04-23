@@ -24,16 +24,24 @@ Or install it yourself as:
 
 ```ruby
 require 'lru_redux'
+
 # non thread safe
 cache = LruRedux::Cache(100)
 cache[:a] = "1"
+cache[:b] = "2"
+cache[:a] # a pushed to front
+# "1"
+
 cache.to_a
-# [[:a,"1"]]
+# [[:a,"1"],[:b,"2"]]
 cache.delete(:a)
 cache.each {|k,v| p "#{k} #{v}"}
 # nothing
+cache.max_size(200) # cache now stores 200 items
+cache.clear # cache has no items
 
-# for thread safe
+# for thread safe access, all methods on cache
+# are protected with a mutex
 cache = LruRedux::ThreadSafeCache(100)
 
 ```
@@ -72,11 +80,6 @@ lru_redux thread safe   2.590000   0.000000   2.590000 (  2.600422)
 
 ## Changlog
 
-###version 0.0.2 - 23-April-2013
+###version 0.0.4 - 23-April-2013
 
-- Added .clear method
-
-###version 0.0.3 - 23-April-2013
-
-- Added .max_size= so you can resize caches on demand
-- Added implemented using arrays for extra perf
+- Initial version
