@@ -14,7 +14,7 @@ class LruRedux::Cache
     node = @data[key]
     if node
       move_to_head(node)
-      node[2]
+      node.value
     end
   end
 
@@ -22,7 +22,7 @@ class LruRedux::Cache
     node = @data[key]
     if node
       move_to_head(node)
-      node[2] = val
+      node.value = val
     else
       pop_tail
       @data[key] = add_to_head(key,val)
@@ -33,8 +33,8 @@ class LruRedux::Cache
   def each
     if n = @head
       while n
-        yield [n[1], n[2]]
-        n = n[0]
+        yield [n.key, n.value]
+        n = n.prev
       end
     end
   end
@@ -54,11 +54,11 @@ class LruRedux::Cache
     node = @data[k]
     if node
       @data.delete(k)
-      prev = node[0]
-      nex = node[3]
+      prev = node.prev
+      nex = node.next
 
-      prev[3] = nex if prev
-      nex[0] = prev if nex
+      prev.next = nex if prev
+      nex.prev = prev if nex
     end
   end
 
@@ -79,39 +79,50 @@ class LruRedux::Cache
 
   def add_to_head(key,val)
     if @head.nil?
-      @tail = @head = [nil, key, val, nil]
+      @tail = @head = Node.new(key,val,nil,nil)
     else
-      node = [@head, key, val, nil]
-      @head = @head[3] = node
+      node = Node.new(key,val,@head,nil)
+      @head = @head.next = node
     end
   end
 
   def move_to_head(node)
     return unless @head && node != @head
 
-    prev = node[0]
-    nex = node[3]
+    prev = node.prev
+    nex = node.next
 
     if prev
-      prev[3] = nex
+      prev.next = nex
     else
       @tail = nex
     end
 
     if nex
-      nex[0] = prev
+      nex.prev = prev
     end
 
-    @head[3] = node
-    node[0] = @head
+    @head.next = node
+    node.prev = @head
     @head = node
   end
 
   def pop_tail
     if @data.length == @size
-      @data.delete(@tail[1])
-      @tail = @tail[3]
-      @tail[0] = nil
+      @data.delete(@tail.key)
+      @tail = @tail.next
+      @tail.prev = nil
+    end
+  end
+
+
+  class Node
+    attr_accessor :key, :value, :next, :prev
+    def initialize(key,value,prev,nex)
+      self.key = key
+      self.value = value
+      self.prev = prev
+      self.next = nex
     end
   end
 end
