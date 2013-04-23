@@ -7,6 +7,10 @@ class CacheTest < MiniTest::Unit::TestCase
     @c = LruRedux::Cache.new(3)
   end
 
+  def teardown
+    assert_equal true, @c.valid?
+  end
+
   def test_drops_old
     @c[:a] = 1
     @c[:b] = 2
@@ -55,5 +59,22 @@ class CacheTest < MiniTest::Unit::TestCase
 
     @c.clear
     assert_equal [], @c.to_a
+  end
+
+  def test_grow
+    @c[:a] = 1
+    @c[:b] = 2
+    @c[:c] = 3
+    @c.max_size = 4
+    @c[:d] = 4
+    assert_equal [[:d,4],[:c,3],[:b,2],[:a,1]], @c.to_a
+  end
+
+  def test_shrink
+    @c[:a] = 1
+    @c[:b] = 2
+    @c[:c] = 3
+    @c.max_size = 2
+    assert_equal [[:c,3],[:b,2]], @c.to_a
   end
 end

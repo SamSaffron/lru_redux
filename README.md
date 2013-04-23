@@ -72,6 +72,11 @@ lru_redux thread safe   2.750000   0.000000   2.750000 (  2.752526)
 
 ## Changlog
 
-###verson 0.0.2 - 23-April-2013
+###version 0.0.2 - 23-April-2013
 
 - Added .clear method
+
+###version 0.0.3 - 23-April-2013
+
+- Added .max_size= so you can resize caches on demand
+- Added implemented using arrays for extra perf

@@ -2,6 +2,8 @@ class LruRedux::Cache
 
   # for high efficiency nodes in double linked list are stored in arrays
   # [prev,key,val,next]
+  #
+  # This makes this much more annoying to code, but gives us a 5-10% edge
 
   def initialize(max_size)
     @max_size = max_size
@@ -10,11 +12,17 @@ class LruRedux::Cache
     @tail = nil
   end
 
+  def max_size=(size)
+    @max_size = size
+    while pop_tail
+    end
+  end
+
   def [](key)
     node = @data[key]
     if node
       move_to_head(node)
-      node.value
+      node[2]
     end
   end
 
@@ -22,7 +30,7 @@ class LruRedux::Cache
     node = @data[key]
     if node
       move_to_head(node)
-      node.value = val
+      node[2] = val
     else
       pop_tail
       @data[key] = add_to_head(key,val)
@@ -33,8 +41,8 @@ class LruRedux::Cache
   def each
     if n = @head
       while n
-        yield [n.key, n.value]
-        n = n.prev
+        yield [n[1], n[2]]
+        n = n[0]
       end
     end
   end
@@ -54,11 +62,11 @@ class LruRedux::Cache
     node = @data[k]
     if node
       @data.delete(k)
-      prev = node.prev
-      nex = node.next
+      prev = node[0]
+      nex = node[3]
 
-      prev.next = nex if prev
-      nex.prev = prev if nex
+      prev[3] = nex if prev
+      nex[0] = prev if nex
     end
   end
 
@@ -74,60 +82,53 @@ class LruRedux::Cache
   # for cache validation only, ensures all is sound
   def valid?
     expected = {}
+
+    count = 0
     self.each_unsafe do |k,v|
-      expected[k] = v
+      return false if @data[k][2] != v
+      count += 1
     end
-    expected == @data
+    count == @data.count
   end
 
   protected
 
   def add_to_head(key,val)
     if @head.nil?
-      @tail = @head = Node.new(key,val,nil,nil)
+      @tail = @head = [nil,key,val,nil]
     else
-      node = Node.new(key,val,@head,nil)
-      @head = @head.next = node
+      node = [@head,key,val,nil]
+      @head = @head[3] = node
     end
   end
 
   def move_to_head(node)
-    return unless @head && node != @head
+    return unless @head && node[1] != @head[1]
 
-    prev = node.prev
-    nex = node.next
+    prev = node[0]
+    nex = node[3]
 
     if prev
-      prev.next = nex
+      prev[3] = nex
     else
       @tail = nex
     end
 
     if nex
-      nex.prev = prev
+      nex[0] = prev
     end
 
-    @head.next = node
-    node.prev = @head
+    @head[3] = node
+    node[0] = @head
     @head = node
   end
 
   def pop_tail
-    if @data.length == @max_size
-      @data.delete(@tail.key)
-      @tail = @tail.next
-      @tail.prev = nil
+    if @data.length >= @max_size
+      @data.delete(@tail[1])
+      @tail = @tail[3]
+      @tail[0] = nil
     end
   end
 
-
-  class Node
-    attr_accessor :key, :value, :next, :prev
-    def initialize(key,value,prev,nex)
-      @key = key
-      @value = value
-      @prev = prev
-      @next = nex
-    end
-  end
 end
