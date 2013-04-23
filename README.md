@@ -95,6 +95,11 @@ lru_redux thread safe   2.480000   0.000000   2.480000 (  2.488169)
 
 ## Changlog
 
+###version 0.0.5 - 23-April-2013
+
+- Added getset and fetch
+- Optimised implementation so it 20-30% faster on Ruby 1.9+
+
 ###version 0.0.4 - 23-April-2013
 
 - Initial version
