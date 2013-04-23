@@ -26,7 +26,7 @@ Or install it yourself as:
 require 'lru_redux'
 
 # non thread safe
-cache = LruRedux::Cache(100)
+cache = LruRedux::Cache.new(100)
 cache[:a] = "1"
 cache[:b] = "2"
 cache[:a] # a pushed to front
