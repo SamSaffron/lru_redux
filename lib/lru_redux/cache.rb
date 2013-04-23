@@ -59,9 +59,7 @@ class LruRedux::Cache
   end
 
   def delete(k)
-    node = @data[k]
-    if node
-      @data.delete(k)
+    if node = @data.delete(k)
       prev = node[0]
       nex = node[3]
 
