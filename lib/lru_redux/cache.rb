@@ -124,10 +124,10 @@ class LruRedux::Cache
   class Node
     attr_accessor :key, :value, :next, :prev
     def initialize(key,value,prev,nex)
-      self.key = key
-      self.value = value
-      self.prev = prev
-      self.next = nex
+      @key = key
+      @value = value
+      @prev = prev
+      @next = nex
     end
   end
 end
