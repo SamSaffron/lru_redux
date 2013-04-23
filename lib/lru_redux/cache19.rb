@@ -24,7 +24,7 @@ class LruRedux::Cache
       @data[key] = value
     else
       @data[key] = yield
-      @data.shift if @data.length > @max_size
+      @data.delete(@data.first[0]) if @data.length > @max_size
     end
   end
 
@@ -51,7 +51,7 @@ class LruRedux::Cache
   def []=(key,val)
     @data.delete(key)
     @data[key] = val
-    @data.shift if @data.length > @max_size
+    @data.delete(@data.first[0]) if @data.length > @max_size
     val
   end
 

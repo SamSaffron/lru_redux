@@ -63,24 +63,24 @@ cache = LruRedux::ThreadSafeCache(100)
 
 ## Benchmarks
 
-see: benchmark directory
+see: benchmark directory (a million random lookup / store)
 
 ```
 sam@ubuntu:~/Source/lru_redux/bench$ ruby ./bench.rb
 Rehearsal ---------------------------------------------------------
-thread safe lru        27.640000   0.370000  28.010000 ( 28.049021)
-lru gem                 2.460000   0.000000   2.460000 (  2.454292)
-lru_cache gem           2.170000   0.000000   2.170000 (  2.174306)
-lru_redux gem           1.530000   0.020000   1.550000 (  1.552481)
-lru_redux thread safe   2.610000   0.070000   2.680000 (  2.684895)
------------------------------------------------ total: 36.870000sec
+thread safe lru        27.940000   0.020000  27.960000 ( 28.026869)
+lru gem                 2.250000   0.010000   2.260000 (  2.256652)
+lru_cache gem           1.980000   0.000000   1.980000 (  1.979244)
+lru_redux gem           1.190000   0.000000   1.190000 (  1.187640)
+lru_redux thread safe   2.480000   0.000000   2.480000 (  2.486314)
+----------------------------------------------- total: 35.870000sec
 
                             user     system      total        real
-thread safe lru        28.170000   0.280000  28.450000 ( 28.465008)
-lru gem                 2.330000   0.000000   2.330000 (  2.328316)
-lru_cache gem           2.140000   0.000000   2.140000 (  2.142749)
-lru_redux gem           1.640000   0.000000   1.640000 (  1.643732)
-lru_redux thread safe   2.590000   0.000000   2.590000 (  2.600422)
+thread safe lru        28.010000   0.000000  28.010000 ( 28.023534)
+lru gem                 2.250000   0.000000   2.250000 (  2.256425)
+lru_cache gem           1.920000   0.000000   1.920000 (  1.925362)
+lru_redux gem           1.170000   0.000000   1.170000 (  1.170970)
+lru_redux thread safe   2.480000   0.000000   2.480000 (  2.488169)
 
 ```
 
