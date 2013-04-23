@@ -36,7 +36,8 @@ cache.to_a
 # [[:a,"1"],[:b,"2"]]
 cache.delete(:a)
 cache.each {|k,v| p "#{k} #{v}"}
-# nothing
+# b 2
+
 cache.max_size(200) # cache now stores 200 items
 cache.clear # cache has no items
 
