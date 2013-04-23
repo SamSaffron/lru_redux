@@ -74,7 +74,7 @@ class CacheTest < MiniTest::Unit::TestCase
     @c[:a] = 1
     @c[:b] = 2
     @c[:c] = 3
-    @c.max_size = 2
-    assert_equal [[:c,3],[:b,2]], @c.to_a
+    @c.max_size = 1
+    assert_equal [[:c,3]], @c.to_a
   end
 end

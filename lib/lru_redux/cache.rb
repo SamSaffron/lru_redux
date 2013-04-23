@@ -13,8 +13,10 @@ class LruRedux::Cache
   end
 
   def max_size=(size)
+    raise ArgumentError.new(:max_size) if @max_size < 1
     @max_size = size
     while pop_tail
+      # no op
     end
   end
 
@@ -32,8 +34,8 @@ class LruRedux::Cache
       move_to_head(node)
       node[2] = val
     else
-      pop_tail
       @data[key] = add_to_head(key,val)
+      pop_tail
     end
     val
   end
@@ -122,10 +124,11 @@ class LruRedux::Cache
   end
 
   def pop_tail
-    if @data.length >= @max_size
+    if @data.length > @max_size
       @data.delete(@tail[1])
       @tail = @tail[3]
       @tail[0] = nil
+      true
     end
   end
 
