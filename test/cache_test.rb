@@ -47,4 +47,13 @@ class CacheTest < MiniTest::Unit::TestCase
     @c[:a] = 99
     assert_equal [[:a,99],[:c,3],[:b,2]], @c.to_a
   end
+
+  def test_clear
+    @c[:a] = 1
+    @c[:b] = 2
+    @c[:c] = 3
+
+    @c.clear
+    assert_equal [], @c.to_a
+  end
 end

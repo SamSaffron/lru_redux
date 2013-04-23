@@ -69,3 +69,9 @@ lru_redux thread safe   2.750000   0.000000   2.750000 (  2.752526)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Changlog
+
+###verson 0.0.2 - 23-April-2013
+
+- Added .clear method

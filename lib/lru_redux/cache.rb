@@ -3,8 +3,8 @@ class LruRedux::Cache
   # for high efficiency nodes in double linked list are stored in arrays
   # [prev,key,val,next]
 
-  def initialize(size)
-    @size = size
+  def initialize(max_size)
+    @max_size = max_size
     @data = {}
     @head = nil
     @tail = nil
@@ -62,6 +62,11 @@ class LruRedux::Cache
     end
   end
 
+  def clear
+    @data.clear
+    @head = @tail = nil
+  end
+
   def count
     @data.count
   end
@@ -108,7 +113,7 @@ class LruRedux::Cache
   end
 
   def pop_tail
-    if @data.length == @size
+    if @data.length == @max_size
       @data.delete(@tail.key)
       @tail = @tail.next
       @tail.prev = nil
