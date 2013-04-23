@@ -23,8 +23,10 @@ class LruRedux::Cache
     if found
       @data[key] = value
     else
-      @data[key] = yield
+      result = @data[key] = yield
+      # this may seem odd see: http://bugs.ruby-lang.org/issues/8312
       @data.delete(@data.first[0]) if @data.length > @max_size
+      result
     end
   end
 
@@ -51,6 +53,7 @@ class LruRedux::Cache
   def []=(key,val)
     @data.delete(key)
     @data[key] = val
+    # this may seem odd see: http://bugs.ruby-lang.org/issues/8312
     @data.delete(@data.first[0]) if @data.length > @max_size
     val
   end

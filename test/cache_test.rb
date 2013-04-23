@@ -31,11 +31,11 @@ class CacheTest < MiniTest::Unit::TestCase
   end
 
   def test_getset
-   @c.getset(:a){1}
+   assert_equal @c.getset(:a){1}, 1
    @c.getset(:b){2}
    assert_equal @c.getset(:a){11}, 1
    @c.getset(:c){3}
-   @c.getset(:d){4}
+   assert_equal @c.getset(:d){4}, 4
 
     assert_equal [[:d,4],[:c,3],[:a,1]], @c.to_a
   end
