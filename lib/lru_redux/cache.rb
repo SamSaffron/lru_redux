@@ -1,3 +1,5 @@
+
+
 class LruRedux::Cache
 
   # for high efficiency nodes in double linked list are stored in arrays
@@ -17,6 +19,26 @@ class LruRedux::Cache
     @max_size = size
     while pop_tail
       # no op
+    end
+  end
+
+  def getset(key)
+    node = @data[key]
+    if node
+      move_to_head(node)
+      node[2]
+    else
+     self[key] = yield
+    end
+  end
+
+  def fetch(key)
+    node = @data[key]
+    if node
+      move_to_head(node)
+      node[2]
+    else
+     yield if block_given?
     end
   end
 

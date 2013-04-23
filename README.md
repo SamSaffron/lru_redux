@@ -46,6 +46,15 @@ cache.each {|k,v| p "#{k} #{v}"}
 cache.max_size(200) # cache now stores 200 items
 cache.clear # cache has no items
 
+cache.getset(:a){1}
+cache.to_a
+#[[:a,1]]
+
+# already set so don't call block
+cache.getset(:a){99}
+cache.to_a
+#[[:a,1]]
+
 # for thread safe access, all methods on cache
 # are protected with a mutex
 cache = LruRedux::ThreadSafeCache(100)
