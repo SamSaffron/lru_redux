@@ -59,7 +59,8 @@ class LruRedux::Cache
   end
 
   def each
-    @data.reverse.each do |pair|
+    array = @data.to_a
+    array.reverse!.each do |pair|
       yield pair
     end
   end
@@ -68,7 +69,8 @@ class LruRedux::Cache
   alias_method :each_unsafe, :each
 
   def to_a
-    @data.to_a.reverse
+    array = @data.to_a
+    array.reverse!
   end
 
   def delete(k)

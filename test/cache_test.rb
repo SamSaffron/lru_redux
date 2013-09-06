@@ -96,4 +96,19 @@ class CacheTest < MiniTest::Unit::TestCase
     @c.max_size = 1
     assert_equal [[:c,3]], @c.to_a
   end
+
+  def test_each
+    @c.max_size = 2
+    @c[:a] = 1
+    @c[:b] = 2
+    @c[:c] = 3
+
+    pairs = []
+    @c.each do |pair|
+      pairs << pair
+    end
+
+    assert_equal [[:c,3],[:b, 2]], pairs
+
+  end
 end

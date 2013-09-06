@@ -1,22 +1,17 @@
-require 'lru_redux'
-require 'minitest/autorun'
-require 'minitest/pride'
+require 'cache_test'
 
-class ThreadSafeCacheTest < MiniTest::Unit::TestCase
-  def test_additions
-    cache = LruRedux::ThreadSafeCache.new(1000)
-    threads = []
-    4.times do |t|
-      threads << Thread.new do
-        250.times do |i|
-          cache[i] = "#{t} #{i}"
-        end
+class ThreadSafeCacheTest < CacheTest
+  def setup
+    @c = LruRedux::ThreadSafeCache.new(3)
+  end
+
+  def test_recursion
+      @c[:a] = 1
+      @c[:b] = 2
+
+      # should not blow up
+      @c.each do |k,v|
+        @c[k]
       end
-    end
-
-    threads.each{|t| t.join}
-    assert_equal cache.count,250
-    assert true, cache.valid?
-
   end
 end

@@ -1,14 +1,16 @@
 require 'thread'
+require 'monitor'
+
 class LruRedux::ThreadSafeCache < LruRedux::Cache
+  include MonitorMixin
   def initialize(size)
-    @lock = Mutex.new
     super(size)
   end
 
   def self.synchronize(*methods)
     methods.each do |method|
       define_method method do |*args, &blk|
-      @lock.synchronize do
+        synchronize do
           super(*args,&blk)
         end
       end
