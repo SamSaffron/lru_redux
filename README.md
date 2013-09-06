@@ -95,6 +95,13 @@ lru_redux thread safe   2.480000   0.000000   2.480000 (  2.488169)
 
 ## Changlog
 
+
+###version 0.8.1 - 7-Sep-2013
+
+- Fix #each implementation
+- Fix deadlocks with ThreadSafeCache
+- Version jump is because its been used in production for quite a while now
+
 ###version 0.0.6 - 24-April-2013
 
 - Fix bug in getset, overflow was not returning the yeilded val

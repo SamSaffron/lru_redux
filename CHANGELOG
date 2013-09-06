@@ -1,5 +1,0 @@
-7-Sep-2013
-
-* fix #each implementation
-* fix deadlocks with ThreadSafeCache
-* version 0.8.1 ( its been used in prd for quite a while now )
