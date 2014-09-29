@@ -57,7 +57,7 @@ cache.to_a
 
 # for thread safe access, all methods on cache
 # are protected with a mutex
-cache = LruRedux::ThreadSafeCache(100)
+cache = LruRedux::ThreadSafeCache.new(100)
 
 ```
 
