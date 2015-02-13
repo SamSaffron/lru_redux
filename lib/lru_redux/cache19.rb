@@ -82,7 +82,7 @@ class LruRedux::Cache
   end
 
   def count
-    @data.count
+    @data.size
   end
 
 

@@ -43,7 +43,7 @@ cache.delete(:a)
 cache.each {|k,v| p "#{k} #{v}"}
 # b 2
 
-cache.max_size(200) # cache now stores 200 items
+cache.max_size = 200 # cache now stores 200 items
 cache.clear # cache has no items
 
 cache.getset(:a){1}
