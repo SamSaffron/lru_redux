@@ -95,6 +95,12 @@ lru_redux thread safe   2.480000   0.000000   2.480000 (  2.488169)
 
 ## Changlog
 
+###version 0.8.2 - 16-Feb-2014
+
+- Perf: use #size instead of #count when checking length @Sebrius
+- Fix: Cache could grow beyond its size in Ruby 1.8 @Sebrius
+- Fix: #each could deadlock in Ruby 1.8 @Sebrius
+
 
 ###version 0.8.1 - 7-Sep-2013
 
