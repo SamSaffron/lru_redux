@@ -28,7 +28,7 @@ class LruRedux::Cache
       move_to_head(node)
       node[2]
     else
-     self[key] = yield
+      self[key] = yield
     end
   end
 
@@ -38,7 +38,7 @@ class LruRedux::Cache
       move_to_head(node)
       node[2]
     else
-     yield if block_given?
+      yield if block_given?
     end
   end
 
@@ -63,16 +63,21 @@ class LruRedux::Cache
   end
 
   def each
-    if n = @head
+    a = to_a
+    a.each do |pair|
+      yield pair
+    end
+  end
+
+  def each_unsafe
+    n = @head
+    if n
       while n
         yield [n[1], n[2]]
         n = n[0]
       end
     end
   end
-
-  # used further up the chain, non thread safe each
-  alias_method :each_unsafe, :each
 
   def to_a
     a = []
@@ -82,8 +87,21 @@ class LruRedux::Cache
     a
   end
 
-  def delete(k)
-    if node = @data.delete(k)
+  def delete(key)
+    node = @data.delete(key)
+    return unless node
+
+    if node[3].nil?
+      @head = @head[0]
+      if @head.nil?
+        @tail = nil
+      else
+        @head[3] = nil
+      end
+    elsif node[0].nil?
+      @tail = @tail[3]
+      @tail[0] = nil
+    else
       prev = node[0]
       nex = node[3]
 
@@ -98,19 +116,17 @@ class LruRedux::Cache
   end
 
   def count
-    @data.count
+    @data.size
   end
 
   # for cache validation only, ensures all is sound
   def valid?
-    expected = {}
-
     count = 0
     self.each_unsafe do |k,v|
       return false if @data[k][2] != v
       count += 1
     end
-    count == @data.count
+    count == @data.size
   end
 
   protected
@@ -153,5 +169,4 @@ class LruRedux::Cache
       true
     end
   end
-
 end
