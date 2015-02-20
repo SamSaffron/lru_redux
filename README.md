@@ -95,6 +95,10 @@ lru_redux thread safe   2.530000   0.000000   2.530000 (  2.532061)
 
 ## Changlog
 
+###version 0.8.3 - 20-Feb-2014
+
+- Perf: improve ThreadSafeCache performance @Sevrius
+
 ###version 0.8.2 - 16-Feb-2014
 
 - Perf: use #size instead of #count when checking length @Sebrius
