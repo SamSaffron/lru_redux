@@ -13,15 +13,29 @@ class LruRedux::ThreadSafeCache < LruRedux::Cache
     end
   end
 
-  def getset(key)
-    synchronize do
-      super(key)
+  if RUBY_PLATFORM == 'java' && JRUBY_VERSION < '9.0'
+    def getset(key, &block)
+      synchronize do
+        super(key, &block)
+      end
     end
-  end
 
-  def fetch(key)
-    synchronize do
-      super(key)
+    def fetch(key, &block)
+      synchronize do
+        super(key, &block)
+      end
+    end
+  else
+    def getset(key)
+      synchronize do
+        super(key)
+      end
+    end
+
+    def fetch(key)
+      synchronize do
+        super(key)
+      end
     end
   end
 

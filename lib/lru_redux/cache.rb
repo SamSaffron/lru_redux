@@ -89,25 +89,16 @@ class LruRedux::Cache
 
   def delete(key)
     node = @data.delete(key)
+
     return unless node
 
-    if node[3].nil?
-      @head = @head[0]
-      if @head.nil?
-        @tail = nil
-      else
-        @head[3] = nil
-      end
-    elsif node[0].nil?
-      @tail = @tail[3]
-      @tail[0] = nil
-    else
-      prev = node[0]
-      nex = node[3]
+    prev = node[0]
+    nex = node[3]
 
-      prev[3] = nex if prev
-      nex[0] = prev if nex
-    end
+    nex  ? nex[0] = prev : @head = prev
+    prev ? prev[3] = nex : @tail = nex
+
+    node[2]
   end
 
   def clear
