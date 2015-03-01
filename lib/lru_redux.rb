@@ -12,3 +12,5 @@ else
   require "lru_redux/cache"
 end
 require "lru_redux/thread_safe_cache"
+require "lru_redux/thread_safe_cache_jruby" if
+    RUBY_PLATFORM == 'java' && JRUBY_VERSION < '9.0'
