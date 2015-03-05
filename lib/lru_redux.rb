@@ -8,6 +8,7 @@ end
 require "lru_redux/version"
 if LruRedux.is_19?
   require "lru_redux/cache19"
+  require "lru_redux/expiring_cache"
 else
   require "lru_redux/cache"
 end
