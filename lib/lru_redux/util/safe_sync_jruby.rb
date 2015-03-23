@@ -1,4 +1,4 @@
-class LruRedux::ThreadSafeCache
+class LruRedux::Util::SafeSync
   def getset(key, &block)
     synchronize do
       super(key, &block)

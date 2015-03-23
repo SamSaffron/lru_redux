@@ -24,8 +24,7 @@ class LruRedux::Cache
       @data[key] = value
     else
       result = @data[key] = yield
-      # this may seem odd see: http://bugs.ruby-lang.org/issues/8312
-      @data.delete(@data.first[0]) if @data.length > @max_size
+      @data.shift if @data.length > @max_size
       result
     end
   end
@@ -53,8 +52,7 @@ class LruRedux::Cache
   def []=(key,val)
     @data.delete(key)
     @data[key] = val
-    # this may seem odd see: http://bugs.ruby-lang.org/issues/8312
-    @data.delete(@data.first[0]) if @data.length > @max_size
+    @data.shift if @data.length > @max_size
     val
   end
 
@@ -73,8 +71,8 @@ class LruRedux::Cache
     array.reverse!
   end
 
-  def delete(k)
-    @data.delete(k)
+  def delete(key)
+    @data.delete(key)
   end
 
   def clear
@@ -84,7 +82,6 @@ class LruRedux::Cache
   def count
     @data.size
   end
-
 
   # for cache validation only, ensures all is sound
   def valid?

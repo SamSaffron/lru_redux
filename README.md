@@ -97,17 +97,17 @@ lru_redux thread safe   2.530000   0.000000   2.530000 (  2.532061)
 
 ###version 0.8.4 - 20-Feb-2014
 
-- Fix: regression of ThreadSafeCache under JRuby 1.7 @Sevrius
+- Fix: regression of ThreadSafeCache under JRuby 1.7 @Seberius
 
 ###version 0.8.3 - 20-Feb-2014
 
-- Perf: improve ThreadSafeCache performance @Sevrius
+- Perf: improve ThreadSafeCache performance @Seberius
 
 ###version 0.8.2 - 16-Feb-2014
 
-- Perf: use #size instead of #count when checking length @Sebrius
-- Fix: Cache could grow beyond its size in Ruby 1.8 @Sebrius
-- Fix: #each could deadlock in Ruby 1.8 @Sebrius
+- Perf: use #size instead of #count when checking length @Seberius
+- Fix: Cache could grow beyond its size in Ruby 1.8 @Seberius
+- Fix: #each could deadlock in Ruby 1.8 @Seberius
 
 
 ###version 0.8.1 - 7-Sep-2013
