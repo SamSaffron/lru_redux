@@ -72,6 +72,14 @@ class CacheTest < MiniTest::Unit::TestCase
     assert_nil @c[:b]
   end
 
+  def test_key?
+    @c[:a] = 1
+    @c[:b] = 2
+
+    assert_equal true, @c.key?(:a)
+    assert_equal false, @c.key?(:c)
+  end
+
   def test_update
     @c[:a] = 1
     @c[:b] = 2

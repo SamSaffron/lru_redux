@@ -1,10 +1,10 @@
-require 'rubygems'
+require 'bundler'
 require 'lru'
 require 'benchmark'
 require 'lru_cache'
 require 'threadsafe-lru'
-$LOAD_PATH.unshift File.expand_path '../lib'
-require File.expand_path('../../lib/lru_redux', __FILE__)
+
+Bundler.require
 
 lru = Cache::LRU.new(max_elements: 1_000)
 lru_cache = LRUCache.new(1_000)

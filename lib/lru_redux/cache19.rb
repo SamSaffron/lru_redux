@@ -10,11 +10,8 @@ class LruRedux::Cache
   def max_size=(size)
     raise ArgumentError.new(:max_size) if @max_size < 1
     @max_size = size
-    if @max_size < @data.size
-      @data.keys[0..@max_size-@data.size].each do |k|
-        @data.delete(k)
-      end
-    end
+
+    @data.shift while @data.size > @max_size
   end
 
   def getset(key)
@@ -74,6 +71,14 @@ class LruRedux::Cache
   def delete(key)
     @data.delete(key)
   end
+
+  alias_method :evict, :delete
+
+  def key?(key)
+    @data.key?(key)
+  end
+
+  alias_method :has_key?, :key?
 
   def clear
     @data.clear

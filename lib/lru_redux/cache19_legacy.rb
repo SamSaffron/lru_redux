@@ -2,6 +2,16 @@
 #
 # This is an ultra efficient 1.9 freindly implementation
 class LruRedux::Cache
+  def max_size=(size)
+    raise ArgumentError.new(:max_size) if @max_size < 1
+    @max_size = size
+    if @max_size < @data.size
+      @data.keys[0..@max_size-@data.size].each do |k|
+        @data.delete(k)
+      end
+    end
+  end
+
   def getset(key)
     found = true
     value = @data.delete(key){ found = false }
