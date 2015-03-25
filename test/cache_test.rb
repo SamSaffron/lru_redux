@@ -1,8 +1,9 @@
+require 'rubygems'
 require 'lru_redux'
 require 'minitest/autorun'
 require 'minitest/pride'
 
-class CacheTest < MiniTest::Unit::TestCase
+class CacheTest < MiniTest::Test
   def setup
     @c = LruRedux::Cache.new(3)
   end
@@ -70,6 +71,14 @@ class CacheTest < MiniTest::Unit::TestCase
 
     assert_equal [[:f,6],[:e,5],[:d,4]], @c.to_a
     assert_nil @c[:b]
+  end
+
+  def test_key?
+    @c[:a] = 1
+    @c[:b] = 2
+
+    assert_equal true, @c.key?(:a)
+    assert_equal false, @c.key?(:c)
   end
 
   def test_update

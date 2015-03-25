@@ -101,6 +101,14 @@ class LruRedux::Cache
     node[2]
   end
 
+  alias_method :evict, :delete
+
+  def key?(key)
+    @data.key?(key)
+  end
+
+  alias_method :has_key?, :key?
+
   def clear
     @data.clear
     @head = @tail = nil

@@ -1,5 +1,3 @@
-require 'cache_test'
-
 class ThreadSafeCacheTest < CacheTest
   def setup
     @c = LruRedux::ThreadSafeCache.new(3)
@@ -10,7 +8,7 @@ class ThreadSafeCacheTest < CacheTest
       @c[:b] = 2
 
       # should not blow up
-      @c.each do |k,v|
+      @c.each do |k, _|
         @c[k]
       end
   end
