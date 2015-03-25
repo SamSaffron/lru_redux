@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'bundler'
 require 'lru'
 require 'benchmark'
@@ -6,14 +7,14 @@ require 'threadsafe-lru'
 
 Bundler.require
 
-lru = Cache::LRU.new(max_elements: 1_000)
+lru = Cache::LRU.new(:max_elements => 1_000)
 lru_cache = LRUCache.new(1_000)
 
 lru_redux = LruRedux::Cache.new(1_000)
 lru_redux_thread_safe = LruRedux::ThreadSafeCache.new(1_000)
 thread_safe_lru = ThreadSafeLru::LruCache.new(1_000)
 
-bm = Benchmark.bmbm do |bm|
+Benchmark.bmbm do |bm|
 
   bm.report "thread safe lru" do
     1_000_000.times do

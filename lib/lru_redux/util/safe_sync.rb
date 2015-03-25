@@ -57,7 +57,11 @@ module LruRedux
         end
       end
 
-      alias_method :evict, :delete
+      def evict(key)
+        synchronize do
+          super(key)
+        end
+      end
 
       def key?(key)
         synchronize do
@@ -65,7 +69,11 @@ module LruRedux
         end
       end
 
-      alias_method :has_key?, :key?
+      def has_key?(key)
+        synchronize do
+          super(key)
+        end
+      end
 
       def clear
         synchronize do
