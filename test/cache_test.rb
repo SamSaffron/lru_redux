@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'lru_redux'
 require 'minitest/autorun'
 require 'minitest/pride'

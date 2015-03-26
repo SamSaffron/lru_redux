@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'bundler'
 require 'lru'
 require 'benchmark'
