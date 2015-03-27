@@ -10,8 +10,10 @@ Gem::Specification.new do |spec|
   spec.email         = ["sam.saffron@gmail.com"]
   spec.description   = %q{An efficient implementation of an lru cache}
   spec.summary       = %q{An efficient implementation of an lru cache}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/SamSaffron/lru_redux"
   spec.license       = "MIT"
+
+  spec.required_ruby_version = ">= 1.9.3"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
