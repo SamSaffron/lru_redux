@@ -20,6 +20,10 @@ Or install it yourself as:
 
     $ gem install lru_redux
 
+Ruby 1.8 - v0.8.4 is the last compatible release:
+
+    gem 'lru_redux', '~> 0.8.4'
+
 ## Usage
 
 ```ruby
@@ -94,16 +98,20 @@ lru_redux thread safe   2.190000   0.010000   2.200000 (  2.185512)
 5. Create new Pull Request
 
 ## Changlog
+###version 1.0.0 - 26-Mar-2015
 
-###version 0.8.4 - 20-Feb-2014
+- Ruby Support: Ruby 1.9+ is now required by LruRedux.  If you need to use LruRedux in Ruby 1.8, please specify gem version 0.8.4 in your Gemfile.  v0.8.4 is the last 1.8 compatible release and included a number of fixes and performance improvements for the Ruby 1.8 implementation. @Seberius
+- Perf: improve performance in Ruby 2.1+ on the MRI @Seberius
+
+###version 0.8.4 - 20-Feb-2015
 
 - Fix: regression of ThreadSafeCache under JRuby 1.7 @Seberius
 
-###version 0.8.3 - 20-Feb-2014
+###version 0.8.3 - 20-Feb-2015
 
 - Perf: improve ThreadSafeCache performance @Seberius
 
-###version 0.8.2 - 16-Feb-2014
+###version 0.8.2 - 16-Feb-2015
 
 - Perf: use #size instead of #count when checking length @Seberius
 - Fix: Cache could grow beyond its size in Ruby 1.8 @Seberius
