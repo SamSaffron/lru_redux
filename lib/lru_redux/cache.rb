@@ -5,7 +5,7 @@ class LruRedux::Cache
   def initialize(*args)
     max_size, _ = args
 
-    raise ArgumentError.new(:max_size) if @max_size < 1
+    raise ArgumentError.new(:max_size) if max_size < 1
 
     @max_size = max_size
     @data = {}
@@ -14,7 +14,7 @@ class LruRedux::Cache
   def max_size=(max_size)
     max_size ||= @max_size
 
-    raise ArgumentError.new(:max_size) if @max_size < 1
+    raise ArgumentError.new(:max_size) if max_size < 1
 
     @max_size = max_size
 

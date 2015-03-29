@@ -1,6 +1,8 @@
 module LruRedux
   module TTL
     class Cache
+      attr_reader :max_size, :ttl
+
       def initialize(*args)
         max_size, ttl = args
 
@@ -48,10 +50,10 @@ module LruRedux
           @data_lru[key] = value
         else
           result = @data_lru[key] = yield
-          @data_ttl = Time.now
+          @data_ttl[key] = Time.now.to_f
 
           if @data_lru.size > @max_size
-            key, _ = @data_lru.tail
+            key, _ = @data_lru.first
 
             @data_ttl.delete(key)
             @data_lru.delete(key)
@@ -92,10 +94,10 @@ module LruRedux
         @data_ttl.delete(key)
 
         @data_lru[key] = val
-        @data_ttl[key] = Time.now
+        @data_ttl[key] = Time.now.to_f
 
         if @data_lru.size > @max_size
-          key, _ = @data_lru.tail
+          key, _ = @data_lru.first
 
           @data_ttl.delete(key)
           @data_lru.delete(key)
@@ -145,6 +147,10 @@ module LruRedux
         @data_ttl.clear
       end
 
+      def expire
+        ttl_evict
+      end
+
       def count
         @data_lru.size
       end
@@ -159,14 +165,14 @@ module LruRedux
       def ttl_evict
         return if @ttl == :none
 
-        ttl_horizon = Time.now - @ttl
-        key, time = @data_ttl.tail
+        ttl_horizon = Time.now.to_f - @ttl
+        key, time = @data_ttl.first
 
         until time.nil? || time > ttl_horizon
           @data_ttl.delete(key)
           @data_lru.delete(key)
 
-          key, time = @data_ttl.tail
+          key, time = @data_ttl.first
         end
       end
 
@@ -174,7 +180,7 @@ module LruRedux
         ttl_evict
 
         while @data_lru.size > @max_size
-          key, _ = @data_lru.tail
+          key, _ = @data_lru.first
 
           @data_ttl.delete(key)
           @data_lru.delete(key)

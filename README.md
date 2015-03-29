@@ -69,6 +69,7 @@ cache = LruRedux::ThreadSafeCache.new(100)
 
 see: benchmark directory (a million random lookup / store)
 
+#### LRU
 ```
 $ ruby ./bench/bench.rb
 Rehearsal ---------------------------------------------------------
@@ -88,6 +89,22 @@ lru_redux thread safe   2.190000   0.010000   2.200000 (  2.185512)
 
 ```
 
+#### TTL
+```
+$ ruby ./bench/bench_ttl.rb
+Rehearsal -----------------------------------------------------------------------
+FastCache                             6.240000   0.070000   6.310000 (  6.302569)
+LruRedux::TTL::Cache                  4.700000   0.010000   4.710000 (  4.712858)
+LruRedux::TTL::ThreadSafeCache        6.300000   0.010000   6.310000 (  6.319032)
+LruRedux::TTL::Cache (TTL disabled)   2.460000   0.010000   2.470000 (  2.470629)
+------------------------------------------------------------- total: 19.800000sec
+
+                                          user     system      total        real
+FastCache                             6.470000   0.070000   6.540000 (  6.536193)
+LruRedux::TTL::Cache                  4.640000   0.010000   4.650000 (  4.661793)
+LruRedux::TTL::ThreadSafeCache        6.310000   0.020000   6.330000 (  6.328840)
+LruRedux::TTL::Cache (TTL disabled)   2.440000   0.000000   2.440000 (  2.446269)
+```
 
 ## Contributing
 
@@ -98,6 +115,10 @@ lru_redux thread safe   2.190000   0.010000   2.200000 (  2.185512)
 5. Create new Pull Request
 
 ## Changlog
+###version NEXT - TBD
+
+- New: TTL cache added.  This cache is LRU like with the addition of time-based eviction.  Check the TTL section in README.md for details.
+
 ###version 1.0.0 - 26-Mar-2015
 
 - Ruby Support: Ruby 1.9+ is now required by LruRedux.  If you need to use LruRedux in Ruby 1.8, please specify gem version 0.8.4 in your Gemfile.  v0.8.4 is the last 1.8 compatible release and included a number of fixes and performance improvements for the Ruby 1.8 implementation. @Seberius
