@@ -5,13 +5,19 @@ module LruRedux
     module SafeSync
       include MonitorMixin
 
-      def initialize(max_size)
-        super(max_size)
+      def initialize(*args)
+        super(*args)
       end
 
-      def max_size=(size)
+      def max_size=(max_size)
         synchronize do
-          super(size)
+          super(max_size)
+        end
+      end
+
+      def ttl=(ttl)
+        synchronize do
+          super(ttl)
         end
       end
 
