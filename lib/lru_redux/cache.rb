@@ -99,6 +99,8 @@ class LruRedux::Cache
     @data.size
   end
 
+  protected
+
   # for cache validation only, ensures all is sound
   def valid?
     true

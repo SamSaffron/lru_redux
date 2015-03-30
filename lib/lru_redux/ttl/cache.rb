@@ -155,12 +155,12 @@ module LruRedux
         @data_lru.size
       end
 
+      protected
+
       # for cache validation only, ensures all is sound
       def valid?
         @data_lru.size == @data_ttl.size
       end
-
-      protected
 
       def ttl_evict
         return if @ttl == :none

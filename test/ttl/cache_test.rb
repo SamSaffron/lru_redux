@@ -8,6 +8,7 @@ class TTLCacheTest < CacheTest
 
   def teardown
     Timecop.return
+    assert_equal true, @c.send(:valid?)
   end
 
   def test_ttl
