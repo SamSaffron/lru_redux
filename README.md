@@ -1,13 +1,13 @@
 # LruRedux [![Gem Version](https://badge.fury.io/rb/lru_redux.svg)](http://badge.fury.io/rb/lru_redux)
 An efficient, thread safe LRU cache.
 
-[Installation](#installation)
-[Usage](#usage)
-[Cache Methods](#cache+methods)
-[Benchmarks](#benchmarks)
-[Other Caches](#other+caches)
-[Contributing](#contributing)
-[Changelog](#changelog)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Cache Methods](#cache-methods)
+- [Benchmarks](#benchmarks)
+- [Other Caches](#other-caches)
+- [Contributing](#contributing)
+- [Changelog](#changelog)
 
 ## Installation
 
@@ -76,7 +76,7 @@ The TTL cache extends the functionality of the LRU cache with a Time To Live evi
 # and is used for demonstration purposes.
 
 # Create a TTL cache with a size of 100 and TTL of 5 minutes.
-cache = LruRedux::Cache.new(100, 5 * 60)
+cache = LruRedux::TTL::Cache.new(100, 5 * 60)
 
 Timecop.freeze(Time.now)
 
@@ -193,20 +193,20 @@ LruRedux::TTL::Cache (TTL disabled)   2.440000   0.000000   2.440000 (  2.446269
 This is a list of the caches that are used in the benchmarks.
 
 #### LRU
-RubyGems: https://rubygems.org/gems/lru
-Homepage: http://lru.rubyforge.org/
+- RubyGems: https://rubygems.org/gems/lru
+- Homepage: http://lru.rubyforge.org/
 
 #### LRUCache
-RubyGems: https://rubygems.org/gems/lru_cache
-Homepage: https://github.com/brendan/lru_cache
+- RubyGems: https://rubygems.org/gems/lru_cache
+- Homepage: https://github.com/brendan/lru_cache
 
 #### ThreadSafeLru
-RubyGems: https://rubygems.org/gems/threadsafe-lru
-Homepage: https://github.com/draganm/threadsafe-lru
+- RubyGems: https://rubygems.org/gems/threadsafe-lru
+- Homepage: https://github.com/draganm/threadsafe-lru
 
 #### FastCache
-RubyGems: https://rubygems.org/gems/fast_cache
-Homepage: https://github.com/swoop-inc/fast_cache
+- RubyGems: https://rubygems.org/gems/fast_cache
+- Homepage: https://github.com/swoop-inc/fast_cache
 
 
 ## Contributing
