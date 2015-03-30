@@ -3,6 +3,7 @@ An efficient, thread safe LRU cache.
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [TTL Cache](#ttl-cache)
 - [Cache Methods](#cache-methods)
 - [Benchmarks](#benchmarks)
 - [Other Caches](#other-caches)
@@ -74,8 +75,12 @@ The TTL cache extends the functionality of the LRU cache with a Time To Live evi
 ```ruby
 # Timecop is gem that allows us to change Time.now
 # and is used for demonstration purposes.
+require 'lru_redux'
+require 'timecop'
 
 # Create a TTL cache with a size of 100 and TTL of 5 minutes.
+# The first argument is the size and
+# the second optional argument is the TTL in seconds.
 cache = LruRedux::TTL::Cache.new(100, 5 * 60)
 
 Timecop.freeze(Time.now)
@@ -93,6 +98,28 @@ Timecop.freeze(Time.now + 330)
 cache.to_a
 # => []
 
+# The TTL can be updated on a live cache using #ttl=.
+# Currently cached items will be evicted under the new TTL.
+cache[:a] = "1"
+cache[:b] = "2"
+
+Timecop.freeze(Time.now + 330)
+
+cache.ttl = 10 * 60
+
+# Since ttl eviction is triggered by access,
+# the items are still cached when the ttl is changed and
+# are now under the 10 minute TTL.
+cache.to_a
+# => [[:b,"2"],[:a,"1"]]
+
+# TTL eviction can be triggered manually with the #expire method.
+Timecop.freeze(Time.now + 330)
+
+cache.expire
+cache.to_a
+# => []
+
 Timecop.return
 
 # The behavior of a TTL cache with the TTL set to `:none`
@@ -104,7 +131,7 @@ cache = LruRedux::TTL::Cache.new(100, :none)
 cache = LruRedux::TTL::Cache.new(100)
 
 # A thread safe version is available.
-cache = LruRedux::TTL::ThreadSafeCache.new(100, :none)
+cache = LruRedux::TTL::ThreadSafeCache.new(100, 5 * 60)
 ```
 
 ## Cache Methods
@@ -133,10 +160,10 @@ cache = LruRedux::TTL::ThreadSafeCache.new(100, :none)
 see: benchmark directory (a million random lookup / store)
 
 #### LRU
+##### Ruby 2.2.1
 ```
 $ ruby ./bench/bench.rb
 
-# Ruby 2.2.1
 Rehearsal -------------------------------------------------------------
 ThreadSafeLru               4.500000   0.030000   4.530000 (  4.524213)
 LRU                         2.250000   0.000000   2.250000 (  2.249670)
@@ -151,10 +178,12 @@ LRU                         2.140000   0.010000   2.150000 (  2.149626)
 LRUCache                    1.680000   0.010000   1.690000 (  1.688564)
 LruRedux::Cache             0.910000   0.000000   0.910000 (  0.913108)
 LruRedux::ThreadSafeCache   2.200000   0.010000   2.210000 (  2.212108)
+```
 
-# Ruby 2.0.0-p643
-# Implementation is slightly different for Ruby versions before 2.1 due to
-# a Ruby bug. http://bugs.ruby-lang.org/issues/8312
+##### Ruby 2.0.0-p643
+Implementation is slightly different for Ruby versions before 2.1 due to a Ruby bug. http://bugs.ruby-lang.org/issues/8312
+```
+$ ruby ./bench/bench.rb
 Rehearsal -------------------------------------------------------------
 ThreadSafeLru               4.790000   0.040000   4.830000 (  4.828370)
 LRU                         2.170000   0.010000   2.180000 (  2.180630)
@@ -172,10 +201,9 @@ LruRedux::ThreadSafeCache   2.650000   0.010000   2.660000 (  2.652580)
 ```
 
 #### TTL
+##### Ruby 2.2.1
 ```
 $ ruby ./bench/bench_ttl.rb
-
-# Ruby 2.2.1
 Rehearsal -----------------------------------------------------------------------
 FastCache                             6.240000   0.070000   6.310000 (  6.302569)
 LruRedux::TTL::Cache                  4.700000   0.010000   4.710000 (  4.712858)
@@ -189,6 +217,7 @@ LruRedux::TTL::Cache                  4.640000   0.010000   4.650000 (  4.661793
 LruRedux::TTL::ThreadSafeCache        6.310000   0.020000   6.330000 (  6.328840)
 LruRedux::TTL::Cache (TTL disabled)   2.440000   0.000000   2.440000 (  2.446269)
 ```
+
 ## Other Caches
 This is a list of the caches that are used in the benchmarks.
 
@@ -218,9 +247,9 @@ This is a list of the caches that are used in the benchmarks.
 5. Create new Pull Request
 
 ## Changlog
-###version NEXT - TBD
+###version 1.1.0 - 30-Mar-2015
 
-- New: TTL cache added.  This cache is LRU like with the addition of time-based eviction.  Check the TTL section in README.md for details.
+- New: TTL cache added.  This cache is LRU like with the addition of time-based eviction.  Check the Usage -> TTL Cache section in README.md for details.
 
 ###version 1.0.0 - 26-Mar-2015
 
