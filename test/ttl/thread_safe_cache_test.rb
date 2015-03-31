@@ -4,10 +4,6 @@ class TTLThreadSafeCacheTest < TTLCacheTest
     @c = LruRedux::TTL::ThreadSafeCache.new 3, 5 * 60
   end
 
-  def teardown
-    Timecop.return
-  end
-
   def test_recursion
     @c[:a] = 1
     @c[:b] = 2
