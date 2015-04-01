@@ -8,7 +8,7 @@ class CacheTest < MiniTest::Test
   end
 
   def teardown
-    assert_equal true, @c.valid?
+    assert_equal true, @c.send(:valid?)
   end
 
   def test_drops_old

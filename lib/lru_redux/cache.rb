@@ -2,16 +2,27 @@
 #
 # This is an ultra efficient 1.9 freindly implementation
 class LruRedux::Cache
-  def initialize(max_size)
+  def initialize(*args)
+    max_size, _ = args
+
+    raise ArgumentError.new(:max_size) if max_size < 1
+
     @max_size = max_size
     @data = {}
   end
 
-  def max_size=(size)
-    raise ArgumentError.new(:max_size) if @max_size < 1
-    @max_size = size
+  def max_size=(max_size)
+    max_size ||= @max_size
+
+    raise ArgumentError.new(:max_size) if max_size < 1
+
+    @max_size = max_size
 
     @data.shift while @data.size > @max_size
+  end
+
+  def ttl=(_)
+    nil
   end
 
   def getset(key)
@@ -87,6 +98,8 @@ class LruRedux::Cache
   def count
     @data.size
   end
+
+  protected
 
   # for cache validation only, ensures all is sound
   def valid?

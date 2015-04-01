@@ -6,4 +6,6 @@ require "lru_redux/cache_legacy" if
 
 require "lru_redux/thread_safe_cache"
 
+require "lru_redux/ttl"
+
 require "lru_redux/version"

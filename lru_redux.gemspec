@@ -6,8 +6,8 @@ require 'lru_redux/version'
 Gem::Specification.new do |spec|
   spec.name          = "lru_redux"
   spec.version       = LruRedux::VERSION
-  spec.authors       = ["Sam Saffron"]
-  spec.email         = ["sam.saffron@gmail.com"]
+  spec.authors       = ["Sam Saffron", "Kaijah Hougham"]
+  spec.email         = ["sam.saffron@gmail.com", "github@seberius.com"]
   spec.description   = %q{An efficient implementation of an lru cache}
   spec.summary       = %q{An efficient implementation of an lru cache}
   spec.homepage      = "https://github.com/SamSaffron/lru_redux"
@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-minitest"
   spec.add_development_dependency "guard"
   spec.add_development_dependency "rb-inotify"
+  spec.add_development_dependency "timecop", "~> 0.7"
 end
