@@ -1,3 +1,5 @@
+require './test/ttl/cache_test'
+
 class TTLThreadSafeCacheTest < TTLCacheTest
   def setup
     Timecop.freeze(Time.now)

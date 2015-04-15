@@ -1,4 +1,5 @@
 require 'timecop'
+require './test/cache_test'
 
 class TTLCacheTest < CacheTest
   def setup

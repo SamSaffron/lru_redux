@@ -1,3 +1,5 @@
+require './test/cache_test'
+
 class ThreadSafeCacheTest < CacheTest
   def setup
     @c = LruRedux::ThreadSafeCache.new(3)
