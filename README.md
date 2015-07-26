@@ -246,7 +246,7 @@ This is a list of the caches that are used in the benchmarks.
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## Changlog
+## Changelog
 ###version 1.1.0 - 30-Mar-2015
 
 - New: TTL cache added.  This cache is LRU like with the addition of time-based eviction.  Check the Usage -> TTL Cache section in README.md for details.
