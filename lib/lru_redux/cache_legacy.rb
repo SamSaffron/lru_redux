@@ -2,7 +2,7 @@
 #
 # This is an ultra efficient 1.9 freindly implementation
 class LruRedux::Cache
-  attr_reader :data
+  attr_accessor :data
   def max_size=(size)
     raise ArgumentError.new(:max_size) if @max_size < 1
     @max_size = size
