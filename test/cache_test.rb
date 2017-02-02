@@ -128,4 +128,14 @@ class CacheTest < MiniTest::Test
     assert_equal [[:c,3],[:b, 2]], pairs
 
   end
+
+  def test_values
+    @c[:a] = 1
+    @c[:b] = 2
+    @c[:c] = 3
+    @c[:d] = 4
+
+    assert_equal [4,3,2], @c.values
+    assert_nil @c[:a]
+  end
 end
