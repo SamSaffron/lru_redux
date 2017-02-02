@@ -57,6 +57,12 @@ module LruRedux
         end
       end
 
+      def values
+        synchronize do
+          super
+        end
+      end
+
       def delete(key)
         synchronize do
           super(key)

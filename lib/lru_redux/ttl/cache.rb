@@ -125,6 +125,13 @@ module LruRedux
         array.reverse!
       end
 
+      def values
+        ttl_evict
+
+        vals = @data_lru.values
+        vals.reverse!
+      end
+
       def delete(key)
         ttl_evict
 
