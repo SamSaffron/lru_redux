@@ -2,6 +2,7 @@
 #
 # This is an ultra efficient 1.9 freindly implementation
 class LruRedux::Cache
+  attr_accessor :data
   def initialize(*args)
     max_size, _ = args
 
