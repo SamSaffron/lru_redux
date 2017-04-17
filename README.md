@@ -247,45 +247,45 @@ This is a list of the caches that are used in the benchmarks.
 5. Create new Pull Request
 
 ## Changelog
-###version 1.1.0 - 30-Mar-2015
+### version 1.1.0 - 30-Mar-2015
 
 - New: TTL cache added.  This cache is LRU like with the addition of time-based eviction.  Check the Usage -> TTL Cache section in README.md for details.
 
-###version 1.0.0 - 26-Mar-2015
+### version 1.0.0 - 26-Mar-2015
 
 - Ruby Support: Ruby 1.9+ is now required by LruRedux.  If you need to use LruRedux in Ruby 1.8, please specify gem version 0.8.4 in your Gemfile.  v0.8.4 is the last 1.8 compatible release and included a number of fixes and performance improvements for the Ruby 1.8 implementation. @Seberius
 - Perf: improve performance in Ruby 2.1+ on the MRI @Seberius
 
-###version 0.8.4 - 20-Feb-2015
+### version 0.8.4 - 20-Feb-2015
 
 - Fix: regression of ThreadSafeCache under JRuby 1.7 @Seberius
 
-###version 0.8.3 - 20-Feb-2015
+### version 0.8.3 - 20-Feb-2015
 
 - Perf: improve ThreadSafeCache performance @Seberius
 
-###version 0.8.2 - 16-Feb-2015
+### version 0.8.2 - 16-Feb-2015
 
 - Perf: use #size instead of #count when checking length @Seberius
 - Fix: Cache could grow beyond its size in Ruby 1.8 @Seberius
 - Fix: #each could deadlock in Ruby 1.8 @Seberius
 
 
-###version 0.8.1 - 7-Sep-2013
+### version 0.8.1 - 7-Sep-2013
 
 - Fix #each implementation
 - Fix deadlocks with ThreadSafeCache
 - Version jump is because its been used in production for quite a while now
 
-###version 0.0.6 - 24-April-2013
+### version 0.0.6 - 24-April-2013
 
 - Fix bug in getset, overflow was not returning the yeilded val
 
-###version 0.0.5 - 23-April-2013
+### version 0.0.5 - 23-April-2013
 
 - Added getset and fetch
 - Optimised implementation so it 20-30% faster on Ruby 1.9+
 
-###version 0.0.4 - 23-April-2013
+### version 0.0.4 - 23-April-2013
 
 - Initial version
