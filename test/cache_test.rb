@@ -24,7 +24,7 @@ class CacheTest < MiniTest::Test
   def test_fetch
     @c[:a] = nil
     @c[:b] = 2
-    assert_equal @c.fetch(:a){1}, nil
+    assert_nil @c.fetch(:a){1}
     assert_equal @c.fetch(:c){3}, 3
 
     assert_equal [[:a,nil],[:b,2]], @c.to_a
@@ -70,6 +70,30 @@ class CacheTest < MiniTest::Test
 
     assert_equal [[:f,6],[:e,5],[:d,4]], @c.to_a
     assert_nil @c[:b]
+  end
+
+  def test_on_remove_delete
+    removed = false
+    @c.on_remove do |key, item|
+      assert_equal item, 1
+      removed = true
+    end
+    @c[:a] = 1
+    @c.delete(:a)
+    assert(removed)
+  end
+
+  def test_on_remove_size_limit
+    removed = false
+    @c.on_remove do |key, item|
+      assert_equal item, 1
+      removed = true
+    end
+    @c[:a] = 1
+    @c[:b] = 2
+    @c[:c] = 3
+    @c[:d] = 4
+    assert(removed)
   end
 
   def test_key?

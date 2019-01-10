@@ -17,6 +17,11 @@ module LruRedux
         @ttl = ttl
         @data_lru = {}
         @data_ttl = {}
+        @on_remove = lambda {|*args|}
+      end
+
+      def on_remove(&block)
+        @on_remove = block
       end
 
       def max_size=(max_size)
@@ -55,8 +60,7 @@ module LruRedux
           if @data_lru.size > @max_size
             key, _ = @data_lru.first
 
-            @data_ttl.delete(key)
-            @data_lru.delete(key)
+            evict_key(key)
           end
 
           result
@@ -90,8 +94,7 @@ module LruRedux
       def []=(key, val)
         ttl_evict
 
-        @data_lru.delete(key)
-        @data_ttl.delete(key)
+        evict_key(key)
 
         @data_lru[key] = val
         @data_ttl[key] = Time.now.to_f
@@ -99,8 +102,7 @@ module LruRedux
         if @data_lru.size > @max_size
           key, _ = @data_lru.first
 
-          @data_ttl.delete(key)
-          @data_lru.delete(key)
+          evict_key(key)
         end
 
         val
@@ -135,8 +137,7 @@ module LruRedux
       def delete(key)
         ttl_evict
 
-        @data_lru.delete(key)
-        @data_ttl.delete(key)
+        evict_key(key)
       end
 
       alias_method :evict, :delete
@@ -169,6 +170,13 @@ module LruRedux
         @data_lru.size == @data_ttl.size
       end
 
+      def evict_key(key)
+        found = true
+        value = @data_lru.delete(key) { found = false }
+        @data_ttl.delete(key)
+        @on_remove.call(key, value) if found
+      end
+
       def ttl_evict
         return if @ttl == :none
 
@@ -176,8 +184,7 @@ module LruRedux
         key, time = @data_ttl.first
 
         until time.nil? || time > ttl_horizon
-          @data_ttl.delete(key)
-          @data_lru.delete(key)
+          evict_key(key)
 
           key, time = @data_ttl.first
         end
@@ -189,8 +196,7 @@ module LruRedux
         while @data_lru.size > @max_size
           key, _ = @data_lru.first
 
-          @data_ttl.delete(key)
-          @data_lru.delete(key)
+          evict_key(key)
         end
       end
     end
