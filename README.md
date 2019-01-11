@@ -67,6 +67,16 @@ cache.to_a
 # are protected with a mutex
 cache = LruRedux::ThreadSafeCache.new(100)
 
+# setting a callback to be executed before removal
+cache = LruRedux::Cache.new(2)
+cache.on_remove do |key, val|
+  puts "Removing key '#{key}' with value '#{val}'"
+end
+cache[:a] = 1
+cache[:b] = 2
+cache[:c] = 3 # => Removing key 'a' with value '1'
+cache[:d] = 4 # => Removing key 'b' with value '2'
+cache.delete(:d) # => Removing key 'd' with value '4'
 ```
 
 #### TTL Cache
@@ -149,6 +159,7 @@ cache = LruRedux::TTL::ThreadSafeCache.new(100, 5 * 60)
 - `#count` Return the current number of items stored in the cache.
 - `#max_size` Returns the current maximum size of the cache.
 - `#max_size=` Takes a positive number.  Changes the current max_size and triggers a resize.  Also triggers TTL eviction on the TTL cache.
+- `#on_remove` Takes a block that will be called when a key is deleted or evicted. The block is invoked with the key and value being removed.
 
 #### TTL Cache Specific
 - `#ttl` Returns the current TTL of the cache.

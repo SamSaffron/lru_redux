@@ -32,6 +32,23 @@ class TTLCacheTest < CacheTest
     assert_equal([[:c, 3]], @c.to_a)
   end
 
+  def test_on_remove_called_by_ttl_eviction
+    removed = false
+    @c.on_remove do |k, v|
+      assert_equal v, 1
+      removed = true
+    end
+
+    @c[:a] = 1
+
+    Timecop.freeze(Time.now + 330)
+
+    @c[:c] = 3
+
+    assert(removed)
+    assert_equal([[:c, 3]], @c.to_a)
+  end
+
   def test_ttl_eviction_on_expire
     @c[:a] = 1
     @c[:b] = 2

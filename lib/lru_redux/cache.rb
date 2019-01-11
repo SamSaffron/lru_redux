@@ -8,7 +8,12 @@ class LruRedux::Cache
     raise ArgumentError.new(:max_size) if max_size < 1
 
     @max_size = max_size
+    @on_remove = lambda {|*args|}
     @data = {}
+  end
+
+  def on_remove(&block)
+    @on_remove = block
   end
 
   def max_size=(max_size)
@@ -18,7 +23,7 @@ class LruRedux::Cache
 
     @max_size = max_size
 
-    @data.shift while @data.size > @max_size
+    evict_last while @data.size > @max_size
   end
 
   def ttl=(_)
@@ -32,7 +37,7 @@ class LruRedux::Cache
       @data[key] = value
     else
       result = @data[key] = yield
-      @data.shift if @data.length > @max_size
+      evict_last if @data.length > @max_size
       result
     end
   end
@@ -58,9 +63,9 @@ class LruRedux::Cache
   end
 
   def []=(key,val)
-    @data.delete(key)
+    delete(key)
     @data[key] = val
-    @data.shift if @data.length > @max_size
+    evict_last if @data.length > @max_size
     val
   end
 
@@ -85,7 +90,9 @@ class LruRedux::Cache
   end
 
   def delete(key)
-    @data.delete(key)
+    found = true
+    value = @data.delete(key) { found = false }
+    @on_remove.call(key, value) if found
   end
 
   alias_method :evict, :delete
@@ -109,5 +116,10 @@ class LruRedux::Cache
   # for cache validation only, ensures all is sound
   def valid?
     true
+  end
+
+  def evict_last
+    key, value = @data.shift
+    @on_remove.call(key, value)
   end
 end
